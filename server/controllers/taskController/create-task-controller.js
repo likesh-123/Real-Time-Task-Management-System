@@ -1,6 +1,5 @@
 const { validateTask } = require('../../validations/create-task-validation');
 const Task = require('../../models/task-model');
-const mongoose = require('mongoose');
 
 const createTask = async (req, res) => {
 
