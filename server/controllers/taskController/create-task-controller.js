@@ -30,12 +30,11 @@ const createTask = async (req, res) => {
             userId: userId,
             createdBy: userId,
             assignedBy: userId,
-            completionDate: new Date(completionDate).toISOString()
+            completedBy: new Date(completionDate).toISOString()
         }).save();
 
         console.log({ newTask });
 
-        // Response with success
         res.status(201).json({ message: 'Task created successfully', data: newTask });
     } catch (error) {
         console.error(error);
