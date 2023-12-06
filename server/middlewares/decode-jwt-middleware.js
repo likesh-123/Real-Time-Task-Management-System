@@ -1,3 +1,5 @@
+const JWT = require('jsonwebtoken');
+
 async function decodeJWTTokenMiddleware(req, res, next) {
 
     const token = req.headers.authorization;
@@ -17,10 +19,12 @@ async function decodeJWTTokenMiddleware(req, res, next) {
     }
 
     try {
-        const decoded = await JWT.verify(tokenParts[1], process.env.JWT_SECRET, { algorithms: ['HS256'] });
-        const originalPayload = await oonaUtils.decryptJWTData(decoded);
+        const decodedData = await JWT.verify(tokenParts[1], process.env.JWT_SECRET, { algorithms: ['HS256'] });
+
+        console.log({decodedData})
         console.log('Token decoded successfully');
-        req.AUTH_USER_DATA = originalPayload;
+        
+        req.AUTH_USER_DATA = decodedData;
         next();
     } catch (error) {
         console.log(error);
