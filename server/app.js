@@ -4,7 +4,8 @@ const connectDB = require('./config/connect-database');
 const decodeJWTTokenMiddleware = require('./middlewares/decode-jwt-middleware')
 
 //routes
-const userRouter = require('./routes/user-routes')
+const userRouter = require('./routes/user-routes');
+const taskRouter = require('./routes/task-router');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,7 +20,7 @@ app.use('/api', userRouter)
 // middleware to decode the jwt token
 app.use(decodeJWTTokenMiddleware);
 
-// app.use('/api/user', userRouter);
+app.use('/api/user', taskRouter);
 
 // Start the server
 app.listen(PORT, () => {
