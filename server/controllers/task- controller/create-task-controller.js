@@ -1,5 +1,6 @@
 const { validateTask } = require('../../validations/create-task-validation');
 const Task = require('../../models/task-model');
+const publishClient = require('../../redis/client/publish-client');
 
 const createTask = async (req, res) => {
 
@@ -33,6 +34,8 @@ const createTask = async (req, res) => {
         }).save();
 
         console.log({ newTask });
+
+        publishClient.publish('taskNotification', JSON.stringify({ event: 'newTask', taskId: newTask._id, assignedBy: newTask.assignedBy }));
 
         res.status(201).json({ message: 'Task created successfully', data: newTask });
     } catch (error) {

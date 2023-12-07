@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/connect-database');
-const decodeJWTTokenMiddleware = require('./middlewares/decode-jwt-middleware')
+const decodeJWTTokenMiddleware = require('./middlewares/decode-jwt-middleware');
+const client = require('./redis/client/redis-client');
+const subscribeChannel = require('./redis/subscriber');
 
 //routes
 const userRouter = require('./routes/user-routes');
@@ -21,6 +23,9 @@ app.use('/api', userRouter)
 app.use(decodeJWTTokenMiddleware);
 
 app.use('/api/user', taskRouter);
+
+// initialize the subcribers by calling the function
+subscribeChannel();
 
 // Start the server
 app.listen(PORT, () => {
